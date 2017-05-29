@@ -1,0 +1,28 @@
+{
+  "name": "happiness-index",
+  "version": "1.0.0",
+  "description": "Happiness Index application for Slack",
+  "main": "",
+  "dependencies": {
+    "aws-sdk": "^2.48.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
+    "mocha": "^3.3.0",
+    "serverless-offline": "^3.13.5",
+    "sinon": "^2.2.0",
+    "sinon-chai": "^2.10.0",
+    "supertest": "^3.0.0",
+    "supertest-as-promised": "^4.0.2"
+  },
+  "scripts": {
+    "start": "serverless offline start -s development &",
+    "stop": "pkill node || true",
+    "test:unit" : "mocha test/unit",
+    "test:integration" : "mocha test/integration",
+    "test:acceptance": "npm start; sleep 3; mocha test/acceptance; npm stop",
+    "test": "npm run test:unit; npm run test:integration; npm run test:acceptance;"
+  },
+  "author": "XPeppers"
+}
