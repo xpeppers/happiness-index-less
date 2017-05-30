@@ -20,9 +20,10 @@ describe('OauthService', () => {
     credentialsProvider.exchangeFor = sinon.stub().returns(Promise.resolve('some credentials'));
     credentialsRepository.save = sinon.spy()
 
-    return expect(credentialsRepository.save).to.have.been.calledOnce;
-    //have.been.calledWith('some credentials');
-    //return expect(oauthService.register('any code')).to.eventually.eql('some credentials');
+    return oauthService.register("sample code")
+    .then(() => {
+      return expect(credentialsRepository.save).to.have.been.calledOnce;
+    })
   });
 
 });
