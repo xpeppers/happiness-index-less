@@ -2,6 +2,9 @@ const chaiAsPromised = require('chai-as-promised');
 const expect = require('chai').use(chaiAsPromised).expect;
 const sinon = require('sinon');
 
+const AWS = require("aws-sdk");
+AWS.config.update({region: "eu-west-1"})
+var awsClient = new AWS.DynamoDB.DocumentClient();
 
 const CredentialsRepository = require('../../lib/repository/credentials-repository');
 
@@ -30,12 +33,12 @@ describe('CredentialsRepository', function () {
 
   this.timeout(30000);
 
-  beforeEach(function() {
+  beforeEach(function(done) {
     credentialsRepository = new CredentialsRepository();
 
-    // cleanDb({email: ANY_USER.email})
-    //   .then(done)
-    //   .catch(err => { throw new Error(err); });
+    cleanDb({team_name: MY_TEAM_CREDENTIALS['team_name']})
+      .then(done)
+      .catch(err => { throw new Error(err); });
   })
 
   describe('#save', function () {
@@ -53,39 +56,23 @@ describe('CredentialsRepository', function () {
 
   });
 
-  // describe('#notExists', function () {
-  //   it('returns true when user does not exist', function () {
-  //     return expect(credentialsRepository.notExists(ANY_USER.email))
-  //             .to.eventually.eql(true);
-  //   });
-  //
-  //   it('returns error when user exist', function () {
-  //     userValidator.isValid = sinon.stub().returns(true);
-  //
-  //     return credentialsRepository.create(ANY_USER)
-  //     .then(function() {
-  //       return expect(credentialsRepository.notExists(ANY_USER.email))
-  //         .to.be.rejectedWith({message: 'Utente già registrato'});
-  //     });
-  //   });
-  // });
-
 })
 
-// function cleanDb(key) {
-//   var params = {
-//     TableName:"buddy_bank",
-//     Key: key
-//   };
-//
-//   return new Promise((resolve, reject) => {
-//       awsClient.delete(params, function(err, data) {
-//           if (err) {
-//             reject("Unable to delete item. Error JSON:", JSON.stringify(err, null, 2));
-//           }
-//           else {
-//             resolve();
-//           }
-//       });
-//   })
-// }
+function cleanDb(key) {
+  var params = {
+    TableName:"happiness-index-credentials-test",
+    Key: key
+  };
+
+  return new Promise((resolve, reject) => {
+    awsClient.delete(params, function(err, data) {
+      if(err) {
+        console.log(err)
+        reject("Unable to delete item. Error JSON:", JSON.stringify(err, null, 2));
+      } else {
+        resolve()
+      }
+    })
+  })
+
+}
