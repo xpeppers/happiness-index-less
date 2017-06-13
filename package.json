@@ -4,6 +4,7 @@
   "description": "Happiness Index application for Slack",
   "main": "",
   "dependencies": {
+    "@slack/client": "^3.10.0",
     "aws-sdk": "^2.48.0",
     "request": "^2.81.0",
     "standard": "^10.0.2"

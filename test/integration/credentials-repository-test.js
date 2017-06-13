@@ -55,7 +55,23 @@ describe('CredentialsRepository', function () {
       })
     });
 
-  });
+  })
+
+  describe('#botTokenOf', function () {
+
+    it('retrieves bot user token for team', function () {
+
+      return credentialsRepository.save(MY_TEAM_CREDENTIALS)
+      .then(data => {
+        expect(data).to.eql({message: 'Credenziali salvate con successo'})
+        return credentialsRepository.botTokenOf(MY_TEAM_CREDENTIALS['team_name'])
+      })
+      .then(data => {
+        expect(data).to.eql(MY_TEAM_CREDENTIALS['bot']['bot_access_token'])
+      })
+    });
+
+  })
 
 })
 

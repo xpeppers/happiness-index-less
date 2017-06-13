@@ -20,6 +20,15 @@ functions:
           path: auth
           method: get
           cors: true
+  survey:
+    handler: happiness.survey
+    environment:
+      STAGE: ${opt:stage}
+    events:
+      - http:
+          path: survey
+          method: get
+          cors: true
 resources:
   Resources:
     DynamoDbTable:
