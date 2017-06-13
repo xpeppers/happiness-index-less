@@ -4,6 +4,8 @@ const SlackTeamInfoRepository = require('./lib/repository/slack-team-info-reposi
 const SlackMessenger = require('./lib/slack-messenger')
 
 module.exports.survey = (event, context, callback) => {
+  var credentialsRepository = new CredentialsRepository()
+  
   credentialsRepository.botTokenOf(event.queryStringParameters.team_name)
   .then((botToken) => {
     var service = new SurveyService(new SlackTeamInfoRepository(botToken), new SlackMessenger(botToken))
