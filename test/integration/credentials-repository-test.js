@@ -7,6 +7,7 @@ AWS.config.update({region: "eu-west-1"})
 var awsClient = new AWS.DynamoDB.DocumentClient();
 
 const CredentialsRepository = require('../../lib/repository/credentials-repository');
+const Configuration = require('../../lib/configuration')
 
 describe('CredentialsRepository', function () {
 
@@ -60,7 +61,7 @@ describe('CredentialsRepository', function () {
 
 function cleanDb(key) {
   var params = {
-    TableName:"happiness-index-credentials-test",
+    TableName: Configuration.CREDENTIALS_TABLE_NAME_TEST,
     Key: key
   };
 

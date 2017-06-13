@@ -1,4 +1,4 @@
-service: happiness-index
+service: happiness-index-less
 
 provider:
   name: aws
@@ -11,8 +11,42 @@ plugins:
 functions:
   register:
     handler: registration.oauth
+    environment:
+      CLIENT_ID: ${env:CLIENT_ID}
+      CLIENT_SECRET: ${env:CLIENT_SECRET}
+      STAGE: ${opt:stage}
     events:
       - http:
           path: auth
           method: get
           cors: true
+resources:
+  Resources:
+    DynamoDbTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: happiness-index-credentials-test
+        AttributeDefinitions:
+          - AttributeName: team_name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: team_name
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+    DynamoDBIamPolicy:
+      Type: AWS::IAM::Policy
+      DependsOn: DynamoDbTable
+      Properties:
+        PolicyName: lambda-dynamodb
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:GetItem
+                - dynamodb:PutItem
+              Resource: arn:aws:dynamodb:*:*:table/happiness-index-credentials-test
+        Roles:
+          - Ref: IamRoleLambdaExecution
