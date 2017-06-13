@@ -20,14 +20,19 @@ Install dependencies
 
 ##Development
 
+Export the following variables into your docker container
+
+```
+export AWS_ACCESS_KEY_ID=<your-access-id>
+export AWS_SECRET_ACCESS_KEY=<your-access-secret>
+export CLIENT_ID=<the-app-slack-client-id>
+export CLIENT_SECRET=<the-app-slack-client-secret>
+```
+
 Run unit tests only:
 
 `npm run test:unit`
 
-Note: to run integration and acceptance tests you should first set your AWS credentials globally (account is `xpeppers-test`)
-```
-export AWS_ACCESS_KEY_ID=<your-access-id>; export AWS_SECRET_ACCESS_KEY=<your-access-secret>
-```
 
 Run integration tests only:
 
