@@ -20,27 +20,36 @@ Install dependencies
 
 ##Development
 
-Run all tests
-
-`npm test`
-
-Only unit
+Run unit tests only:
 
 `npm run test:unit`
 
-Only integration
+Note: to run integration and acceptance tests you should first set your AWS credentials globally (account is `xpeppers-test`)
+```
+export AWS_ACCESS_KEY_ID=<your-access-id>; export AWS_SECRET_ACCESS_KEY=<your-access-secret>
+```
+
+Run integration tests only:
 
 `npm run test:integration`
 
-Only acceptance
+Run acceptance tests only:
 
 `npm run test:acceptance`
 
+Run all tests:
 
-Start local serverless
+`npm test`
+
+
+Start local serverless at port 3000
 
 `npm start`
 
 ##Deploy
 
 `serverless deploy --stage <stage-name>`
+
+##Tail logs
+
+`serverless logs -f <function-name> --stage <stage-name> -t`
