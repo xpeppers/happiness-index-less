@@ -34,12 +34,9 @@ describe('CredentialsRepository', function () {
 
   this.timeout(30000);
 
-  beforeEach(function(done) {
+  beforeEach(function() {
     credentialsRepository = new CredentialsRepository();
-
-    cleanDb({team_name: MY_TEAM_CREDENTIALS['team_name']})
-      .then(done)
-      .catch(err => { throw new Error(err); });
+    return cleanDb({team_name: MY_TEAM_CREDENTIALS['team_name']})
   })
 
   describe('#save', function () {
