@@ -3,11 +3,13 @@ const expect = require('chai').use(chaiAsPromised).expect;
 const sinon = require('sinon');
 
 const SlackTeamInfoRepository = require('../../lib/repository/slack-team-info-repository');
+const TeamMember = require('../../lib/team-member');
 
 describe('SlackTeamInfoRepository', function () {
 
   const BOT_TOKEN_OF_TEST_TEAM = 'xoxb-197668950503-0F5C2jD23JdShgKnkEMsOXRm'
   const SLACKBOT_USER_ID = 'USLACKBOT'
+  const SLACKBOT_USER = new TeamMember({ id: 'D5TKNTZLP' })
   var slackTeamInfoRepository;
 
   this.timeout(30000);
@@ -28,6 +30,17 @@ describe('SlackTeamInfoRepository', function () {
 
     });
 
+  })
+
+  describe('#teamMember', function() {
+
+    it('retrieves a team member given their chat id', function () {
+
+      return slackTeamInfoRepository.teamMember(SLACKBOT_USER.channel())
+      .then(member => {
+        expect(member.channel()).to.be.eql(SLACKBOT_USER.channel())
+      })
+    })
   })
 
 })

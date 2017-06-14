@@ -6,8 +6,8 @@ const client = supertest(endpoint)
 describe('get auth', function () {
   this.timeout(30000)
 
-  it('returns 200 ok', function () {
+  it('returns 400 Bad Request for invalid code', function () {
     return client.get('/auth?code=anyCode')
-      .expect(200)
+      .expect(400)
   })
 })

@@ -5,11 +5,12 @@ const SlackMessenger = require('./lib/slack-messenger')
 
 module.exports.survey = (event, context, callback) => {
   var credentialsRepository = new CredentialsRepository()
-  
+
   credentialsRepository.botTokenOf(event.queryStringParameters.team_name)
   .then((botToken) => {
     var service = new SurveyService(new SlackTeamInfoRepository(botToken), new SlackMessenger(botToken))
-    return service.sendAll()
+    var channel = event.queryStringParameters.channel
+    return channel ? service.sendOne(channel) : service.sendAll()
   })
   .then(() => {
     context.succeed({
