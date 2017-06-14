@@ -31,10 +31,10 @@ functions:
           cors: true
 resources:
   Resources:
-    DynamoDbTable:
+    DynamoDbCredentialsTableStaging:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: happiness-index-credentials-test
+        TableName: happiness-index-credentials-staging
         AttributeDefinitions:
           - AttributeName: team_name
             AttributeType: S
@@ -44,9 +44,24 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
+    DynamoDbSurveyTableStaging:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: happiness-index-survey-staging
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
     DynamoDBIamPolicy:
       Type: AWS::IAM::Policy
-      DependsOn: DynamoDbTable
+      DependsOn:
+        - DynamoDbCredentialsTableStaging
+        - DynamoDbSurveyTableStaging
       Properties:
         PolicyName: lambda-dynamodb
         PolicyDocument:
@@ -56,6 +71,6 @@ resources:
               Action:
                 - dynamodb:GetItem
                 - dynamodb:PutItem
-              Resource: arn:aws:dynamodb:*:*:table/happiness-index-credentials-test
+              Resource: arn:aws:dynamodb:*:*:table/happiness-index-*
         Roles:
           - Ref: IamRoleLambdaExecution
