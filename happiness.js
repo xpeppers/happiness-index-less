@@ -4,6 +4,7 @@ const AnswerRepository = require('./lib/repository/answer-repository')
 const RecordAnswerService = require('./lib/record-answer-service')
 const CredentialsRepository = require('./lib/repository/credentials-repository')
 const SlackTeamInfoRepository = require('./lib/repository/slack-team-info-repository')
+const LastSurveyRepository = require('./lib/repository/last-survey-repository')
 const SlackMessenger = require('./lib/slack-messenger')
 
 module.exports.survey = (event, context, callback) => {
@@ -11,7 +12,7 @@ module.exports.survey = (event, context, callback) => {
 
   credentialsRepository.botTokenOf(event.queryStringParameters.team_name)
   .then((botToken) => {
-    var service = new SurveyService(new SlackTeamInfoRepository(botToken), new SlackMessenger(botToken))
+    var service = new SurveyService(new SlackTeamInfoRepository(botToken), new SlackMessenger(botToken), new LastSurveyRepository())
     var channel = event.queryStringParameters.channel
     return channel ? service.sendOne(channel) : service.sendAll()
   })
@@ -32,10 +33,10 @@ module.exports.answer = (event, context, callback) => {
   var payload = JSON.parse(decodeURIComponent(event.body).split('payload=').join(''))
 
   recordAnswerService.record(Answer.fromPayload(payload))
-  .then((reply) => {
+  .then((thankYou) => {
     context.succeed({
       statusCode: 200,
-      body: JSON.stringify(reply.forSlackChannel())
+      body: JSON.stringify(thankYou.forSlackChannel())
     })
   })
   .catch(() => {

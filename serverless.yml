@@ -38,6 +38,15 @@ functions:
           path: button
           method: post
           cors: true
+  metrics:
+    handler: metrics.show
+    environment:
+      STAGE: ${opt:stage}
+    events:
+      - http:
+          path: metrics
+          method: post
+          cors: true
 resources:
   Resources:
     DynamoDbCredentialsTableStaging:
@@ -53,12 +62,27 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
-    DynamoDbSurveyTableStaging:
+    DynamoDbLastSurveyTableStaging:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: happiness-index-survey-staging
+        TableName: happiness-index-last-survey-staging
+        AttributeDefinitions:
+          - AttributeName: team_id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: team_id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+    DynamoDbAnswersTableStaging:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: happiness-index-answers-staging
         AttributeDefinitions:
           - AttributeName: id
+            AttributeType: S
+          - AttributeName: timestamp
             AttributeType: S
         KeySchema:
           - AttributeName: id
@@ -66,11 +90,22 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 5
           WriteCapacityUnits: 5
+        GlobalSecondaryIndexes:
+          - IndexName: timestamp-index
+            KeySchema:
+            - AttributeName: timestamp
+              KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 5
+              WriteCapacityUnits: 5
     DynamoDBIamPolicy:
       Type: AWS::IAM::Policy
       DependsOn:
         - DynamoDbCredentialsTableStaging
-        - DynamoDbSurveyTableStaging
+        - DynamoDbAnswersTableStaging
+        - DynamoDbLastSurveyTableStaging
       Properties:
         PolicyName: lambda-dynamodb
         PolicyDocument:
@@ -80,6 +115,7 @@ resources:
               Action:
                 - dynamodb:GetItem
                 - dynamodb:PutItem
+                - dynamodb:Scan
               Resource: arn:aws:dynamodb:*:*:table/happiness-index-*
         Roles:
           - Ref: IamRoleLambdaExecution

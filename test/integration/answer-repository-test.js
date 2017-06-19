@@ -39,7 +39,33 @@ describe('AnswerRepository', function () {
 
   })
 
+  describe('#findSince', function() {
+
+    it('retrieves all answers registered from specified date onwards', function() {
+      var answer = new Answer('my team', 'any channel', Answer.AWESOME, today())
+
+      return answerRepository.save(answer, TEST_ID)
+      .then(() => {
+        return answerRepository.findSince(yesterday(), 'my team')
+      })
+      .then(data => {
+        expect(data).to.eql([answer])
+      })
+    })
+
+  })
+
 })
+
+function today() {
+  return new Date()
+}
+
+function yesterday() {
+  var result = new Date()
+  result.setDate(result.getDate() - 5)
+  return result
+}
 
 function cleanDb(key) {
   var params = {

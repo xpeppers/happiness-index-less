@@ -43,4 +43,15 @@ describe('SlackTeamInfoRepository', function () {
     })
   })
 
+  describe('#teamId', function() {
+
+    it('retrieves the current team\'s id', function() {
+      return slackTeamInfoRepository.teamId()
+      .then(id => {
+        expect(id).to.be.eql('T3ZGB1DFC')
+      })
+    })
+
+  })
+
 })

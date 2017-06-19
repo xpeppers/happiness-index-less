@@ -1,7 +1,6 @@
 const endpoint = process.env.ENDPOINT ? process.env.ENDPOINT : 'http://localhost:3000'
 const supertest = require('supertest-as-promised')
 const expect = require('chai').expect;
-const SlackTeamInfoRepository = require('../../lib/repository/slack-team-info-repository');
 const TeamMember = require('../../lib/team-member');
 
 const client = supertest(endpoint)
@@ -12,31 +11,24 @@ const BUTTON_CLICKED_PAYLOAD = "payload=%7B%22actions%22%3A%5B%7B%22name%22%3A%2
   "%22%3A%22Bad%22%2C%22type%22%3A%22button%22%2C%22value%22%3A%222%22%2C%22style%22%3A%22%22%7D%2C%7B%22id%22%3A%224%22%2C%22name%22%3A%22Really+Bad%22%2C%22text%22%3A%22Really+Bad%22%2C%22type" +
   "%22%3A%22button%22%2C%22value%22%3A%221%22%2C%22style%22%3A%22%22%7D%5D%7D%5D%2C%22ts%22%3A%221497434482.839710%22%7D%2C%22response_url%22%3A%22https%3A%5C%2F%5C%2Fhooks.slack.com%5C%2Factions%5C%2FT3ZGB1DFC%5C%2F197636128322%5C%2F6dbGhrQ5m1Ftd6McVR2Ymp88%22%7D"
 
-describe('send survey', function () {
+const SLASH_COMMAND_PAYLOAD = "token=5ifpaiXL7cb1p0c0ZObl8IEq&team_id=T3ZGB1DFC&team_domain=bot-land&channel_id=C3ZGB1L1G&channel_name=general&user_id=U407821MM&user_name=valentina.servile&command=%2Fmetrics&text=&response_url=https%3A%2F%2Fhooks.slack.com%2Fcommands%2FT3ZGB1DFC%2F199188839936%2Fau8irH0kkAlV4P9z7nQNPUtw"
+
+describe('metrics', function () {
   this.timeout(30000)
 
-  const BOT_TOKEN_OF_TEST_TEAM = 'xoxb-197668950503-0F5C2jD23JdShgKnkEMsOXRm'
   const SLACKBOT_USER = new TeamMember({ id: 'D5TKNTZLP' })
   const TEST_TEAM_NAME = 'BotLand'
 
-  var teamInfoRepository = new SlackTeamInfoRepository(BOT_TOKEN_OF_TEST_TEAM);
 
-  it('sends survey to a team', function () {
-    return client.get(`/survey?team_name=${TEST_TEAM_NAME}&channel=${SLACKBOT_USER.channel()}`)
-      .expect(200)
-      .then(() => {
-        return teamInfoRepository.historyOf(SLACKBOT_USER)
-      })
-      .then(messageHistory => {
-        expect(messageHistory[1]['text']).to.eql('Hello dear. How was your week?')
-      })
-  })
-
-  it('records answer to survey', function() {
+  it('prints metrics since last survey was sent', function() {
     var expectedResponse =  {
-      response_type: 'ephemeral',
-      replace_original: true,
-      text: 'Thank you for your feedback! You said that your week was good.'
+      "response_type":"ephemeral",
+      "replace_original":false,
+      "text": "1 people have voted in the last survey.\n" +
+        "0 people said their week was really bad, \n" +
+        "0 people said their week was bad, \n" +
+        "1 people said their week was good, \n" +
+        "0 people said their week was awesome."
     }
 
     return client.get(`/survey?team_name=${TEST_TEAM_NAME}&channel=${SLACKBOT_USER.channel()}`)
@@ -46,7 +38,13 @@ describe('send survey', function () {
         .type('form')
          .send(BUTTON_CLICKED_PAYLOAD)
          .expect(200)
-         .expect((response) => expect(response.body).to.eql(expectedResponse) )
+      })
+      .then(() => {
+        return client.post('/metrics')
+        .type('form')
+        .send(SLASH_COMMAND_PAYLOAD)
+        .expect(200)
+        .expect((response) => expect(response.body).to.eql(expectedResponse))
       })
   })
 })
