@@ -21,7 +21,7 @@ functions:
           method: get
           cors: true
   survey:
-    handler: happiness.survey
+    handler: survey.send
     environment:
       STAGE: ${opt:stage}
     events:
@@ -30,7 +30,7 @@ functions:
           method: get
           cors: true
   answer:
-    handler: happiness.answer
+    handler: answer.record
     environment:
       STAGE: ${opt:stage}
     events:
