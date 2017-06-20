@@ -1,5 +1,5 @@
-const OAuthService = require('./lib/oauth-service')
-const CredentialsProvider = require('./lib/credentials-provider')
+const OAuthService = require('./lib/service/oauth-service')
+const CredentialsProvider = require('./lib/adapter/credentials-provider')
 const CredentialsRepository = require('./lib/repository/credentials-repository')
 
 module.exports.oauth = (event, context, callback) => {

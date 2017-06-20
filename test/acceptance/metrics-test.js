@@ -1,7 +1,7 @@
 const endpoint = process.env.ENDPOINT ? process.env.ENDPOINT : 'http://localhost:3000'
 const supertest = require('supertest-as-promised')
 const expect = require('chai').expect;
-const TeamMember = require('../../lib/team-member');
+const TeamMember = require('../../lib/entity/team-member');
 
 const client = supertest(endpoint)
 

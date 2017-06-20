@@ -2,7 +2,7 @@ const endpoint = process.env.ENDPOINT ? process.env.ENDPOINT : 'http://localhost
 const supertest = require('supertest-as-promised')
 const expect = require('chai').expect;
 const SlackTeamInfoRepository = require('../../lib/repository/slack-team-info-repository');
-const TeamMember = require('../../lib/team-member');
+const TeamMember = require('../../lib/entity/team-member');
 
 const client = supertest(endpoint)
 

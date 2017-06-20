@@ -2,10 +2,10 @@ const chaiAsPromised = require('chai-as-promised');
 const expect = require('chai').use(chaiAsPromised).expect;
 const sinon = require('sinon');
 
-const SlackMessenger = require('../../lib/slack-messenger');
+const SlackMessenger = require('../../lib/adapter/slack-messenger');
 const SlackTeamInfoRepository = require('../../lib/repository/slack-team-info-repository');
-const TeamMember = require('../../lib/team-member');
-const TextMessage = require('../../lib/text-message');
+const TeamMember = require('../../lib/entity/team-member');
+const TextMessage = require('../../lib/message/text-message');
 
 describe('SlackMessenger', function () {
 

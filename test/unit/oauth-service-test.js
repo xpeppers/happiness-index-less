@@ -3,7 +3,7 @@ const sinonChai = require('sinon-chai')
 const expect = require('chai').use(chaiAsPromised).use(sinonChai).expect
 const sinon = require('sinon')
 
-const OauthService = require('../../lib/oauth-service')
+const OauthService = require('../../lib/service/oauth-service')
 
 describe('OauthService', () => {
   var oauthService

@@ -3,8 +3,8 @@ const sinonChai = require('sinon-chai')
 const expect = require('chai').use(chaiAsPromised).use(sinonChai).expect
 const sinon = require('sinon')
 
-const RecordAnswerService = require('../../lib/record-answer-service')
-const Answer = require('../../lib/answer')
+const RecordAnswerService = require('../../lib/service/record-answer-service')
+const Answer = require('../../lib/entity/answer')
 
 describe('RecordAnswerService', () => {
 

@@ -1,11 +1,14 @@
-const SurveyService = require('./lib/survey-service')
-const Answer = require('./lib/answer')
-const AnswerRepository = require('./lib/repository/answer-repository')
-const RecordAnswerService = require('./lib/record-answer-service')
-const CredentialsRepository = require('./lib/repository/credentials-repository')
+const SurveyService           = require('./lib/service/survey-service')
+const RecordAnswerService     = require('./lib/service/record-answer-service')
+
+const AnswerRepository        = require('./lib/repository/answer-repository')
+const CredentialsRepository   = require('./lib/repository/credentials-repository')
 const SlackTeamInfoRepository = require('./lib/repository/slack-team-info-repository')
-const LastSurveyRepository = require('./lib/repository/last-survey-repository')
-const SlackMessenger = require('./lib/slack-messenger')
+const LastSurveyRepository    = require('./lib/repository/last-survey-repository')
+
+const SlackMessenger          = require('./lib/adapter/slack-messenger')
+
+const Answer                  = require('./lib/entity/answer')
 
 module.exports.survey = (event, context, callback) => {
   var credentialsRepository = new CredentialsRepository()

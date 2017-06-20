@@ -3,9 +3,9 @@ const sinonChai = require('sinon-chai')
 const expect = require('chai').use(chaiAsPromised).use(sinonChai).expect
 const sinon = require('sinon')
 
-const Answer = require('../../lib/answer')
-const WeeklyMetrics = require('../../lib/weekly-metrics')
-const WeeklyMetricsService = require('../../lib/weekly-metrics-service')
+const Answer = require('../../lib/entity/answer')
+const WeeklyMetrics = require('../../lib/entity/weekly-metrics')
+const WeeklyMetricsService = require('../../lib/service/weekly-metrics-service')
 
 describe('WeeklyMetricsService', () => {
 

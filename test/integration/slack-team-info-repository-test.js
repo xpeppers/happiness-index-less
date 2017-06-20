@@ -3,7 +3,7 @@ const expect = require('chai').use(chaiAsPromised).expect;
 const sinon = require('sinon');
 
 const SlackTeamInfoRepository = require('../../lib/repository/slack-team-info-repository');
-const TeamMember = require('../../lib/team-member');
+const TeamMember = require('../../lib/entity/team-member');
 
 describe('SlackTeamInfoRepository', function () {
 

@@ -1,4 +1,4 @@
-const MetricsServiceFactory = require('./lib/metrics-service-factory')
+const MetricsServiceFactory = require('./lib/factory/metrics-service-factory')
 const qs = require('qs')
 
 module.exports.show = (event, context, callback) => {

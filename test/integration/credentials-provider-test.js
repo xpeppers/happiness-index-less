@@ -1,7 +1,7 @@
 const chaiAsPromised = require('chai-as-promised');
 const expect = require('chai').use(chaiAsPromised).expect;
 const sinon = require('sinon');
-const CredentialsProvider = require('../../lib/credentials-provider');
+const CredentialsProvider = require('../../lib/adapter/credentials-provider');
 
 describe('CredentialsProvider', function() {
 

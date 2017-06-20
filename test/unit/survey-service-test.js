@@ -3,9 +3,9 @@ const sinonChai = require('sinon-chai')
 const expect = require('chai').use(chaiAsPromised).use(sinonChai).expect
 const sinon = require('sinon')
 
-const SurveyService = require('../../lib/survey-service')
-const TeamMember = require('../../lib/team-member')
-const HappinessSurveyMessage = require('../../lib/happiness-survey-message')
+const SurveyService = require('../../lib/service/survey-service')
+const TeamMember = require('../../lib/entity/team-member')
+const HappinessSurveyMessage = require('../../lib/message/happiness-survey-message')
 
 describe('SurveyService', () => {
 

@@ -7,7 +7,7 @@ AWS.config.update({region: "eu-west-1"})
 var awsClient = new AWS.DynamoDB.DocumentClient();
 
 const AnswerRepository = require('../../lib/repository/answer-repository');
-const Answer = require('../../lib/answer')
+const Answer = require('../../lib/entity/answer')
 const Configuration = require('../../lib/configuration')
 
 describe('AnswerRepository', function () {
