@@ -29,6 +29,11 @@ export CLIENT_ID=<the-app-slack-client-id>
 export CLIENT_SECRET=<the-app-slack-client-secret>
 ```
 
+AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY would be your personal credentials to the account `xpeppers-test`. Please ensure that you have all the necessary permission to create all of the resources.
+
+CLIENT_ID and CLIENT_SECRET are your Slack App credentials, which can be found in the application administration page under "Basic Information".
+
+
 Run unit tests only:
 
 `npm run test:unit`
