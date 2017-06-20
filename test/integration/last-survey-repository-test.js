@@ -37,6 +37,15 @@ describe('LastSurveyRepository', function () {
 
   })
 
+  describe('#date', function() {
+
+    it('returns null when no survey was sent yet for that team', function() {
+      return lastSurveyRepository.date('a new team')
+      .then((data) => expect(data).to.eql(null) )
+    })
+
+  })
+
 })
 
 function cleanDb(key) {

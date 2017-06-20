@@ -38,8 +38,16 @@ describe('WeeklyMetricsService', () => {
 
       return weeklyMetricsService.metricsOf('a team')
       .then((metrics) => {
-
         expect(metrics).to.be.eql(expectedMetrics)
+      })
+    })
+
+    it('returns no metrics when there is no last survey for team', () => {
+      lastSurveyRepository.date = sinon.stub().returns(Promise.resolve(null))
+
+      return weeklyMetricsService.metricsOf('a team')
+      .then((metrics) => {
+        expect(metrics).to.be.eql(WeeklyMetrics.none())
       })
     })
 

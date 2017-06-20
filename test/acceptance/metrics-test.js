@@ -12,6 +12,7 @@ const BUTTON_CLICKED_PAYLOAD = "payload=%7B%22actions%22%3A%5B%7B%22name%22%3A%2
   "%22%3A%22button%22%2C%22value%22%3A%221%22%2C%22style%22%3A%22%22%7D%5D%7D%5D%2C%22ts%22%3A%221497434482.839710%22%7D%2C%22response_url%22%3A%22https%3A%5C%2F%5C%2Fhooks.slack.com%5C%2Factions%5C%2FT3ZGB1DFC%5C%2F197636128322%5C%2F6dbGhrQ5m1Ftd6McVR2Ymp88%22%7D"
 
 const SLASH_COMMAND_PAYLOAD = "token=5ifpaiXL7cb1p0c0ZObl8IEq&team_id=T3ZGB1DFC&team_domain=bot-land&channel_id=C3ZGB1L1G&channel_name=general&user_id=U407821MM&user_name=valentina.servile&command=%2Fmetrics&text=&response_url=https%3A%2F%2Fhooks.slack.com%2Fcommands%2FT3ZGB1DFC%2F199188839936%2Fau8irH0kkAlV4P9z7nQNPUtw"
+const SLASH_COMMAND_PAYLOAD_TEAM_WITH_NO_SURVEY = "token=5ifpaiXL7cb1p0c0ZObl8IEq&team_id=1234&team_domain=bot-land&channel_id=C3ZGB1L1G&channel_name=general&user_id=U407821MM&user_name=valentina.servile&command=%2Fmetrics&text=&response_url=https%3A%2F%2Fhooks.slack.com%2Fcommands%2FT3ZGB1DFC%2F199188839936%2Fau8irH0kkAlV4P9z7nQNPUtw"
 
 describe('metrics', function () {
   this.timeout(30000)
@@ -47,4 +48,20 @@ describe('metrics', function () {
         .expect((response) => expect(response.body).to.eql(expectedResponse))
       })
   })
+
+  it('prints a helpful message if no survey yet', function() {
+      var helpfulMessage = {
+          "response_type": "ephemeral",
+          "replace_original": false,
+          "text": 'There are no metrics yet for this team'
+      }
+
+      return client.post('/metrics')
+      .type('form')
+      .send(SLASH_COMMAND_PAYLOAD_TEAM_WITH_NO_SURVEY)
+      .expect(200)
+      .expect((response) => expect(response.body).to.eql(helpfulMessage))
+
+  })
+
 })
