@@ -32,7 +32,7 @@ export CLIENT_SECRET=<the-app-slack-client-secret>
 AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY would be your personal credentials to the account `xpeppers-test`. Please ensure that you have all the necessary permission to create all of the resources.
 
 CLIENT_ID and CLIENT_SECRET are your Slack App credentials, which can be found in the application administration page under "Basic Information".
-
+Pr0tip: you can use staging app credentials by default and for running the tests, but be sure to export the correct ones before deploying to production.
 
 Run unit tests only:
 
@@ -59,6 +59,7 @@ Start local serverless at port 3000
 ##Deploy
 
 `serverless deploy --stage <stage-name>`
+
 
 ##Tail logs
 
