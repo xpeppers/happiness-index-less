@@ -8,6 +8,11 @@ provider:
 plugins:
   - serverless-offline
 
+custom:
+  team_names:
+    staging: BotLand
+    production: XPeppers
+
 functions:
   register:
     handler: registration.oauth
@@ -25,10 +30,12 @@ functions:
     environment:
       STAGE: ${opt:stage}
     events:
-      - http:
-          path: survey
-          method: get
-          cors: true
+      - schedule:
+          rate: cron(00 15 ? * FRI *)
+          enabled: true
+          input:
+            queryStringParameters:
+              team_name: ${self:custom.team_names.${opt:stage}}
   answer:
     handler: answer.record
     environment:
